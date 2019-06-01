@@ -1,0 +1,13 @@
+Defaults env_keep+=SSH_AUTH_SOCK
+
+Defaults mail_badpass
+Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+root  ALL=(ALL:ALL) ALL
+%%sudo ALL=(ALL:ALL) ALL
+
+#includedir /etc/sudoers.d
+
+% if add_lines:
+${"\n".join(add_lines)}
+% endif
