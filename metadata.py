@@ -13,3 +13,23 @@ def add_sudo_group_processor(metadata):
         return metadata, DONE
 
     return metadata, RUN_ME_AGAIN
+
+
+@metadata_processor
+def add_apt_packages(metadata):
+    # TODO: add support for other package managers as well
+    if node.has_bundle("apt"):
+        metadata.setdefault('apt', {})
+        metadata['apt'].setdefault('packages', {})
+
+        metadata['apt']['packages']['sudo'] = {'installed': True}
+
+        if node.os == 'debian':
+            if node.os_version[0] >= 10:
+                metadata['apt']['packages']['libpam-ssh-agent-auth'] = {'installed': True}
+            if node.os_version[0] == 9:
+                metadata['apt']['packages']['libcrypto++6'] = {'installed': True}
+            elif node.os_version[0] == 8:
+                metadata['apt']['packages']['libcrypto++9'] = {'installed': True}
+
+    return metadata, DONE

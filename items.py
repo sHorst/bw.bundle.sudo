@@ -3,10 +3,6 @@ if node.os == "openbsd":
 else:
     root_group = "root"
 
-pkg_apt = {
-    "sudo": {},
-}
-
 directories = {
     "/etc/sudoers.d": {
         'mode': "0755",
@@ -64,12 +60,6 @@ if node.os == 'debian':
         'content_type': "text",
         'source': "etc/pam.d/sudo",
     }
-
-    if node.os_version[0] >= 9:
-        pkg_apt['libcrypto++6'] = {'installed': True}
-    elif node.os_version[0] == 8:
-        pkg_apt['libcrypto++9'] = {'installed': True}
-
 
 directories["/etc/sudoers.d/.authorized_keys"] = {
     'owner': 'root',
