@@ -72,12 +72,16 @@ groups = {
 }
 
 for username, user_attrs in node.metadata.get('users', {}).items():
-    if not user_attrs.get('delete', False):
+    if user_attrs.get('sudo', False) == True:
         files["/etc/sudoers.d/.authorized_keys/{}".format(username)] = {
             'content': "\n".join(user_attrs['ssh_pubkeys']) + "\n",
             'owner': 'root',
             'group': 'root',
             'mode': "0644",
             'needed_by': ['file:/etc/pam.d/sudo'],
+        }
+    else:
+        files["/etc/sudoers.d/.authorized_keys/{}".format(username)] = {
+                'delete': True,
         }
 
