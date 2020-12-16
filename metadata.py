@@ -15,6 +15,9 @@ if node.has_bundle("apt"):
         elif node.os_version[0] == 8:
             defaults['apt']['packages']['libcrypto++9'] = {'installed': True}
 
+    if node.os == 'ubuntu':
+        defaults['apt']['packages']['libpam-ssh-agent-auth'] = {'installed': True}
+
 
 @metadata_reactor
 def add_sudo_group_processor(metadata):
