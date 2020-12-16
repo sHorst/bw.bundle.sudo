@@ -15,6 +15,10 @@ files = {
     },
 }
 
+groups = {
+    'sudo': {}
+}
+
 if node.metadata.get('sudo', {}).get('with_ssh', True):
     directories = {
         "/etc/sudoers.d": {
@@ -66,10 +70,6 @@ if node.metadata.get('sudo', {}).get('with_ssh', True):
         'owner': 'root',
         'group': 'root',
         'mode': "0755",
-    }
-
-    groups = {
-        'sudo': {}
     }
 
     for username, user_attrs in node.metadata.get('users', {}).items():
