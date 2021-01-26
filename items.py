@@ -1,3 +1,11 @@
+
+def sort_pubkey(key):
+    try:
+        return key.split(' ')[2]
+    except IndexError:
+        return key
+
+
 if node.os == "openbsd":
     root_group = "wheel"
 else:
@@ -75,7 +83,7 @@ if node.metadata.get('sudo', {}).get('with_ssh', True):
     for username, user_attrs in node.metadata.get('users', {}).items():
         if user_attrs.get('sudo', False) == True:
             files["/etc/sudoers.d/.authorized_keys/{}".format(username)] = {
-                'content': "\n".join(user_attrs['ssh_pubkeys']) + "\n",
+                'content': "\n".join(sorted(user_attrs['ssh_pubkeys'], key=sort_pubkey)) + "\n",
                 'owner': 'root',
                 'group': 'root',
                 'mode': "0644",
